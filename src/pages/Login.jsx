@@ -25,7 +25,12 @@ const Login = () => {
             localStorage.setItem('token', res.data.token);
             navigate('/dashboard');
         } catch (err) {
-            setError('Login failed! Please check your credentials.');
+            console.error('Login error:', err.response?.data || err.message);
+            const errorMessage = err.response?.data?.msg || 
+                                err.response?.data?.message || 
+                                err.response?.data?.error ||
+                                'Login failed! Please check your credentials.';
+            setError(errorMessage);
         } finally {
             setLoading(false);
         }

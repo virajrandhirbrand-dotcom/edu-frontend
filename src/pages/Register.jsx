@@ -68,7 +68,12 @@ const Register = () => {
             localStorage.setItem('token', res.data.token);
             navigate('/dashboard');
         } catch (err) {
-            setErrors({ submit: 'Registration failed! User may already exist.' });
+            console.error('Registration error:', err.response?.data || err.message);
+            const errorMessage = err.response?.data?.msg || 
+                                err.response?.data?.message || 
+                                err.response?.data?.error ||
+                                'Registration failed! Please try again.';
+            setErrors({ submit: errorMessage });
         } finally {
             setLoading(false);
         }
